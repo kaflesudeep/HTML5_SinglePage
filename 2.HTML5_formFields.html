@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>HTML5 Form Fields</title>
+
+    <style media="screen">
+      em{
+        color: red;
+      }
+      fieldset{
+        border: 2px solid black;
+
+
+
+      }
+    </style>
+  </head>
+  <body>
+
+    <main>
+  <article class="FormFields">
+    <fieldset>
+      <legend>Contract Details</legend>
+      <label for="Fname" >First Name <em>*</em> </label>
+      <input type="text" name="Fname" id="Fname" value="" required>
+      <label for="Lname">Last Name<em>*</em></label>
+        <input type="text" name="Lname" id="Lname" value="" required>
+      <label for="phone">Phone Number<em>*</em></label>
+        <input type="text" name="phone" id="phone" value="" placeholder="707-490-7855" required>
+      <label for="address">Address</label>
+        <input type="text" name="address" id="address" value="" >
+    </fieldset>
+
+    <fieldset>
+      <legend>Credentials Details</legend>
+      <label for="password" >Password<em>*</em> </label>
+      <input type="password" name="password" id="password" value="" required placeholder="8+ character" >
+      <label for="dob">Date of Birth<em>*</em></label>
+        <input type="date" name="dob" id="dob" value="" required>
+    </fieldset>
+
+    <fieldset>
+      <legend>Check and Radio Box</legend>
+      <label for="check" >Check Box<em>*</em> </label>
+      <input type="checkbox" name="check" id="check">
+
+      <br>
+<!--
+  1. To be in the radio group the name should match
+  2. The for and id needs to match for the accessibility screen reader issue.
+   --!>
+      <label for="male">Male<em>*</em></label>
+        <input type="radio" name="genderGroup" id="male" value="" >
+        <label for="female">Female<em>*</em></label>
+          <input type="radio" name="genderGroup" id="female" value="" >
+    </fieldset>
+
+
+    <fieldset>
+      <legend>Number</legend>
+      <label for="age" >Age<em>*</em> </label>
+      <input type="number" name="age" id="age" value="" required placeholder="0 to 100" min="0" max="100" >
+      <label for="weight">Weight (in pounds)</label>
+      <input id="weight" type="number" min="50" max="1000" step="0.1"value="160"><br>
+    </fieldset>
+
+<fieldset>
+  <legend>Sliders</legend>
+  <label for="weight"> Weight in lb</label>
+  <input type="range" name="weight" id="weight" min="50" max="300" value="100">
+</fieldset>
+
+
+<fieldset>
+  <legend> Choose From DataList</legend>
+
+  <label for="country">Select country</label>
+  <input type="text" name="country" id="country" value="" list="countryList">
+
+  <datalist id="countryList">
+    <option value="America">America</option>
+    <option value="Nepal">Nepal</option>
+    <option value="Swiss">Swiss</option>
+    <option value="India">India</option>
+
+  </datalist>
+</fieldset>
+
+
+
+
+  </article>
+
+    </main>
+
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      #canvas_sp{
+        border: 1px dashed black;
+        width: 500px;
+        height: 500px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas_sp"></canvas>
+
+  </body>
+
+  <script type="text/javascript">
+    window.onload = function()
+{
+  var canvas = document.getElementById('canvas_sp');
+  var context = canvas.getContext("2d");
+
+  context.lineWidth = 1;
+  context.strokeStyle = "#cd2828";
+
+context.moveTo(70, 70);
+  context.lineTo(40, 40);
+  context.lineTo(70, 10);
+  context.closePath();
+context.stroke();
+  context.fillStyle = "blue";
+context.fill();
+
+context.lineWidth = 2;
+context.strokeStyle = "red";
+context.stroke();
+
+
+  context.beginPath();
+  context.fillRect(0,30,40,20);
+
+  context.strokeRect(80,10,10,20);
+
+
+
+  var centerX = 220;
+var centerY = 100;
+var radius = 100;
+var startingAngle = 1.25 * Math.PI;
+var endingAngle = 1.75 * Math.PI;
+// Use this information to draw the arc.
+context.arc(centerX, centerY, radius, startingAngle, endingAngle);
+context.closePath() ;  // () before you call stroke() to add a straight line between the two ends of the arc.
+
+context.stroke();
+
+
+
+
+
+}
+  </script>
+</html>

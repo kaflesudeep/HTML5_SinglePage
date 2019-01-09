@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Paint</title>
+
+  <style media="screen">
+    canvas{
+      border: 1px Solid black;
+      }
+
+      #red{
+        background-color:red;
+      }
+
+      #blue{
+        background-color:blue;
+      }
+
+      #green{
+        background-color:green;
+      }
+      #pink{
+        background-color:pink;
+      }
+
+ fieldset{
+ float: left;
+  width: 23.33%;
+}
+label{
+
+  margin: 15px;
+}
+
+.colordisplay{
+  width: 275px;
+  height: 25px;
+  background-color: black;
+  border: 2px solid black;
+}
+    </style>
+</head>
+
+<body>
+<h1>Paint Application with slider using the HTML 5</h1>
+  <canvas id="canvas" width="900" height="300"></canvas>
+  <div id="row">
+
+
+    <fieldset>
+      <legend>Color Selection</legend>
+      <label for="red_1"> Red</label>
+      0<input type="range" name="colorSelec"  id="red" min="0" max="255" value="1"  oninput="calling(this.value, 'R')">255 <br>
+      <label for="green_1"> Green</label>
+    0<input type="range" name="colorSelec" id="green_1" min="0" max="255" value="1" oninput="calling(this.value, 'G')">255<br>
+      <label for="blue_1"> Blue</label>
+    0<input type="range" name="colorSelec" id="blue_1" min="0" max="255" value="1" oninput="calling(this.value, 'B')">255<br> <br>
+
+
+<hr>
+    Color is: <p id="colorCode"> rgb(0, 0, 0) </p>
+  <div class="colordisplay" id="colordisplay"> </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Pen</legend>
+      <label for="penThickness"> Pen thickness</label>
+      0<input type="range" name="penThickness" id="penThickness" min="0" max="25" value="1">25 <br> <br>
+        Thickness is : <p id="penThickValue" >1</p>
+    </fieldset>
+
+
+    <fieldset id="actionSelection">
+      <legend>Actions</legend>
+      <button type="button" name="button" onclick="eraseContent();" >Reset</button>
+    </fieldset>
+  </div>
+
+
+
+
+</body>
+
+<script type="text/javascript">
+  var penStyle = {
+    color :[{R : 0,    G: 0,    B : 0}],
+    thickness: 1,
+    };
+  var isDrawing = false;
+  var context;
+  var canvas;
+  window.onload = function() {
+    canvas = document.getElementById('canvas');
+    context = canvas.getContext("2d");
+
+
+
+    canvas.onmousedown = startDrawing;
+    canvas.onmousemove = draw;
+    canvas.onmouseup = stopDrawing;
+    canvas.onmouseout = stopDrawing;
+var slider = document.getElementById("penThickness");
+
+slider.oninput = function() {
+    penStyle.thickness = this.value;
+    document.getElementById("penThickValue").innerHTML=this.value;
+}
+  }
+
+function calling(col, Type){
+  if(Type=="R"){
+      penStyle.color[0].R = col;
+  }else if(Type=="G"){
+      penStyle.color[0].G = col;
+  }else if (Type=="B"){
+      penStyle.color[0].B = col;
+  }
+
+var a =   "rgb(" + penStyle.color[0].R+", "+ penStyle.color[0].G +", " + penStyle.color[0].B +")" ;
+
+
+document.getElementById("colorCode").innerHTML=a;
+
+document.getElementById("colordisplay").style.backgroundColor = a;
+
+
+}
+
+  function startDrawing(e) {
+
+    isDrawing = true;
+    configPen(context);
+    context.beginPath();
+    context.moveTo(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop);
+
+  }
+
+  function draw(e) {
+
+    if (isDrawing == true) {
+
+      var x = e.pageX - canvas.offsetLeft;
+      var y = e.pageY - canvas.offsetTop;
+
+      context.lineTo(x, y);
+      context.stroke();
+
+
+    }
+
+  }
+
+  function stopDrawing() {
+    isDrawing = false;
+
+  }
+
+  function configPen(context) {
+    context.lineWidth = penStyle.thickness;
+    context.strokeStyle = getColorString();
+  }
+
+ function getColorString(){
+
+   var colorString = "rgb(" + penStyle.color[0].R+", "+ penStyle.color[0].G +", " + penStyle.color[0].B +")" ;
+   return colorString;
+ }
+
+  function ChangeColor(color) {
+    penStyle.color = red;
+    configPen(context);
+  }
+
+  function ChangeThickness(thickness) {
+    penStyle.thickness = thickness;
+    configPen(context);
+  }
+
+  function eraseContent() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  // changing the color using the slider
+
+
+
+</script>
+
+
+</html>

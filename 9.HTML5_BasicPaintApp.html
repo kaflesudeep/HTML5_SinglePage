@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Paint</title>
+
+  <style media="screen">
+    canvas{
+      border: 1px Solid black;
+      }
+
+      #red{
+        background-color:red;
+      }
+
+      #blue{
+        background-color:blue;
+      }
+
+      #green{
+        background-color:green;
+      }
+      #pink{
+        background-color:pink;
+      }
+
+ fieldset{
+ float: left;
+  width: 23.33%;
+}
+
+.colordisplay{
+  width: 25px;
+  height: 25px;
+  background-color: red;
+}
+    </style>
+</head>
+
+<body width="500px">
+<h1>Simple Painting Applicaiton</h1>
+  <canvas id="canvas" width="900" height="300"></canvas>
+  <div id="row" width="500px">
+    <fieldset id="colorSelection">
+      <legend>Color Selection</legend>
+      <input type="radio" name="color" value="red" id="red" onclick="ChangeColor(this.id);">
+      <input type="radio" name="color" value="blue" id="blue" onclick="ChangeColor(this.id);">
+      <input type="radio" name="color" value="green" id="green" onclick="ChangeColor(this.id);">
+        <input type="radio" name="color" value="pink" id="pink" onclick="ChangeColor(this.id);">
+    </fieldset>
+
+    <fieldset id="penSelection">
+      <legend>Pen Thickness </legend>
+      <input type="radio" name="penSize" value="1" id="small" onclick="ChangeThickness(1);"> <span>/</span>
+      <input type="radio" name="penSize" value="5" id="medium" onclick="ChangeThickness(5);"><span>//</span>
+      <input type="radio" name="penSize" value="10" id="large" onclick="ChangeThickness(10);"><span>///</span>
+
+    </fieldset>
+
+    <fieldset id="actionSelection">
+      <legend>Actions</legend>
+      <button type="button" name="button" onclick="eraseContent();" >Reset</button>
+    </fieldset>
+
+  </div>
+  <fieldset>
+    <legend>Pen</legend>
+    <label for="penThickness"> Pen thickness</label>
+    <input type="range" name="penThickness" id="penThickness" min="0" max="25" value="1">
+  </fieldset>
+
+  </div>
+</body>
+
+<script type="text/javascript">
+  var penStyle = {
+    color: "green",
+    thickness: 1
+  };
+  var isDrawing = false;
+  var context;
+  var canvas;
+  window.onload = function() {
+    canvas = document.getElementById('canvas');
+    context = canvas.getContext("2d");
+    canvas.onmousedown = startDrawing;
+    canvas.onmousemove = draw;
+    canvas.onmouseup = stopDrawing;
+    canvas.onmouseout = stopDrawing;
+var slider = document.getElementById("penThickness");
+  }
+
+  function startDrawing(e) {
+    isDrawing = true;
+    configPen(context);
+    context.beginPath();
+    context.moveTo(e.pageX - canvas.offsetLeft, e.pageY - canvas.offsetTop);
+  }
+
+  function draw(e) {
+    if (isDrawing == true) {
+      var x = e.pageX - canvas.offsetLeft;
+      var y = e.pageY - canvas.offsetTop;
+      context.lineTo(x, y);
+      context.stroke();
+    }
+  }
+
+  function stopDrawing() {
+    isDrawing = false;
+  }
+
+  function configPen(context) {
+    context.lineWidth = penStyle.thickness;
+    context.strokeStyle = penStyle.color;
+  }
+
+  function ChangeColor(color) {
+    penStyle.color = color;
+    configPen(context);
+  }
+
+  function ChangeThickness(thickness) {
+    penStyle.thickness = thickness;
+    configPen(context);
+  }
+
+  function eraseContent() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+
+</script>
+
+
+</html>
