@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang=" " dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <style media="screen">
+    canvas{
+        border: 2px solid black;
+        background-color: #e0ded0;
+      }
+    </style>
+</head>
+
+<body>
+
+  <fieldset>
+    <legend>Provide your data</legend>
+    <label for="height">Cliff Height :</label>
+    <input type="number" name="height" id="height">
+    <label for="mass">Ball Mass(kg) :</label>
+    <input type="number" name="mass" id="mass">
+
+    <label for="VelocityX">Velocity Hori :</label>
+    <input type="number" name="VelocityX" id="VelocityX">
+    <label for="angle">Angle :</label>
+    <input type="number" name="angle" id="angle" value="90" min="90" max="180" step="1">
+
+
+
+    <label for="ballPath"> Ball number:</label>
+    1<input type="range" name="path" id="ballPath" min="1" max="10" step="1" placeholder="1 to 10">10
+
+    <button type="button" name="Shoot" onclick="generateAnimation()">Shoot</button>
+  </fieldset>
+
+  <canvas id="canvas" width="1500" height="1100"></canvas>
+</body>
+
+<script type="text/javascript">
+  var scaleH = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  var canvas, context;
+  var height, mass, VelocityX, angle, ballnumber;
+  var time, distance;
+  var scaleU;
+
+  window.onload = function() {
+    canvas = document.getElementById('canvas');
+    context = canvas.getContext("2d");
+
+  }
+
+  function generateAnimation() {
+    eraseContent();
+    getValue();
+    calculateStrikeZone();
+    scaleU = calculateSacale(distance);
+    scaleV = calculateSacale(height);
+    generateCanvas();
+    generatepath();
+    plotPath(distance, height);
+    context.beginPath();
+    context.fillStyle = "red";
+    context.fillText("distance >>" + distance + " time >>" + time, 550, 575);
+    context.stroke();
+  }
+
+  function generatepath() {
+    for (var aa = 0; aa < distance; aa++) {
+      var t = aa / VelocityX;
+      var sy = (9.8 * t * t) / 2;
+      plotPath(aa, sy);
+    }
+  }
+
+  function plotPath(sx, sy) {
+    deltaSx = sx * 100 / scaleU;
+    deltaSy = sy * 100 / scaleV;
+    context.beginPath();
+    context.fillStyle = "Red";
+    context.fillText("*", deltaSx + 50, canvas.height - 100 - height * 100 / scaleV + deltaSy);
+  }
+
+  function getValue() {
+    height = document.getElementById("height").value;
+    mass = document.getElementById("mass").value;
+    VelocityX = document.getElementById("VelocityX").value;
+    angle = document.getElementById("angle").value;
+    ballnumber = document.getElementById("ballPath").value;
+  }
+
+  function calculateStrikeZone() {
+    time = Math.sqrt(2 * height / 9.8);
+    distance = time * VelocityX;
+  }
+
+  function calculateSacale(dis) {
+    var dist = Math.round(dis);
+    var continueLoop = true;
+    var count = 0;
+    var sc;
+    while (continueLoop) {
+      sc = Math.pow(10, count)
+      if (dist < 10 * sc) {
+        break;
+      }
+      count++;
+    }
+    return sc;
+  }
+
+
+  function generateCanvas() {
+    context.rect(0, canvas.height - 100 * height / scaleV - 100, 50, canvas.height);
+    context.rect(50, canvas.height - 100, canvas.width, canvas.height - 100);
+    context.fillStyle = "green";
+    context.fill();
+    context.stroke();
+
+    // generate horizontal scale
+    context.beginPath();
+    context.strokeStyle = "Red";
+    context.moveTo(50, canvas.height - 50);
+    context.lineTo(canvas.width, canvas.height - 50);
+    var a = 50;
+    var i;
+    for (i = 0; i <= 12; i++) {
+      context.fillStyle = "white";
+      context.fillText(scaleU * i, a, canvas.height - 50);
+
+      a = a + 100;
+    }
+    context.fillStyle = "black";
+    context.fillText("X" + scaleU, canvas.width / 2, canvas.height - 30);
+    context.stroke();
+
+    // generate verticle scale
+    context.beginPath();
+    context.moveTo(25, canvas.height - 100);
+    context.lineTo(25, 0);
+
+
+    for (i = 0; i <= 12; i++) {
+      context.fillStyle = "white";
+      context.fillText(i + "---", 15, canvas.height - 100 - 100 * i);
+      a = a + 100;
+    }
+    context.fillStyle = "black";
+    context.fillText("X" + scaleV, 10, canvas.height - 700);
+    context.stroke();
+  }
+
+  function eraseContent() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
+  }
+</script>
+
+</html>
